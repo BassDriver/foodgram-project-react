@@ -4,8 +4,6 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from recipes.models import (Favourite, Ingredient, IngredientInRecipe, Recipe,
-                            ShoppingCart, Tag)
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
@@ -19,6 +17,9 @@ from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (IngredientSerializer, RecipeReadSerializer,
                           RecipeShortSerializer, RecipeWriteSerializer,
                           TagSerializer)
+
+from recipes.models import (Favourite, Ingredient, IngredientInRecipe, Recipe,
+                            ShoppingCart, Tag)
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
@@ -103,7 +104,7 @@ class RecipeViewSet(ModelViewSet):
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'
-        ).annotate(amount=Sum('amount'))
+        ).annotate(cart_amount=Sum('amount'))
 
         today = datetime.today()
         shopping_list = (
@@ -113,7 +114,7 @@ class RecipeViewSet(ModelViewSet):
         shopping_list += '\n'.join([
             f'- {ingredient["ingredient__name"]} '
             f'({ingredient["ingredient__measurement_unit"]})'
-            f' - {ingredient["amount"]}'
+            f' - {ingredient["cart_amount"]}'
             for ingredient in ingredients
         ])
         shopping_list += f'\n\nFoodgram ({today:%Y})'
