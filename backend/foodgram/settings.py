@@ -11,7 +11,7 @@ SECRET_KEY = SECRET_KEY = os.getenv('SECRET_KEY', default='key')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['130.193.39.247', 'bassdriver.ddns.net']
+ALLOWED_HOSTS = ['130.193.39.247', 'bassdriver.ddns.net', '*']
 
 
 INSTALLED_APPS = [
