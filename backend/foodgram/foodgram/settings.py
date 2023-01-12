@@ -9,9 +9,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = SECRET_KEY = os.getenv('SECRET_KEY', default='key')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['130.193.39.247', 'bassdriver.ddns.net']
 
 
 INSTALLED_APPS = [
